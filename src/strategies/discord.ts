@@ -38,7 +38,7 @@ passport.use(
             id: id,
             username,
             discriminator,
-            iconURL: `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048`,
+            iconURL: avatar ? `https://cdn.discordapp.com/avatars/${id}/${avatar}?size=2048` : `https://cdn.discordapp.com/embed/avatars/${Number(discriminator) % 5}.png`,
             email,
             accessToken,
             refreshToken,
