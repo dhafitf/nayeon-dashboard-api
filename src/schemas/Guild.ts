@@ -53,10 +53,12 @@ const ServerSchema = new Schema<GuildType>(
         position: Number,
         managed: Boolean,
         hoist: Boolean,
+        isBot: Boolean,
       },
     ],
     embed_messages: [],
     autoResponder: [],
+    memberCount: Number,
     in: Boolean,
   },
   { versionKey: false }
