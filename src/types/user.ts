@@ -13,3 +13,14 @@ export type UserType = {
   };
   guilds: PartialGuilds[];
 };
+
+export type PartialUser = {
+  id: string;
+  username: string;
+  avatar: string;
+  discriminator: string;
+  banner: null;
+  banner_color: null;
+  accent_color: null;
+  email: string;
+};

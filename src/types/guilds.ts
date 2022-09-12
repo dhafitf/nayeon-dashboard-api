@@ -5,6 +5,8 @@ export type PartialGuilds = {
   owner: boolean;
   permissions: string;
   features: string[];
+  manageGuild: boolean;
+  mutual: boolean;
 };
 
 type notifModels = {
@@ -52,5 +54,27 @@ export type GuildType = {
   ];
   embed_messages: [];
   autoResponder: [];
+  memberCount: number;
   in: boolean;
+};
+
+export type PartialChannels = {
+  id: string;
+  name: string;
+  type: number;
+  position: number;
+  parentId: string | null;
+};
+
+export type PartialRoles = {
+  id: string;
+  name: string;
+  color: string | number;
+  permissions: string | number;
+  position: number;
+  managed: boolean;
+  hoist: boolean;
+  tags: {
+    bot_id: string;
+  };
 };
