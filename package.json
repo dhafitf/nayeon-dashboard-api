@@ -5,6 +5,9 @@
   "repository": "https://github.com/dhafitf/nayeon-dashboard-api.git",
   "author": "Dhafit Farenza <dhafidfarenza@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "nodemon ./src/index.ts",
