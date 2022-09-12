@@ -20,9 +20,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: yarn install
       - run: yarn build
-      - name: Commit report
-        run: |
-          git config --global user.name 'Dhafit Farenza'
-          git config --global user.email 'dhafidfarenza@gmail.com'
-          git commit -am "Automatic build"
-          git push
+      - name: Typescript compiler
+        uses: iCrawl/action-tsc@v1
