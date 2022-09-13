@@ -19,21 +19,18 @@ const routes_1 = __importDefault(require("./routes"));
 const cors_1 = __importDefault(require("cors"));
 const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const connect_mongo_1 = __importDefault(require("connect-mongo"));
+const dbConnect_1 = require("./utils/dbConnect");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3005;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { MONGOURI, SECRET } = process.env;
-        mongoose_1.default
-            .connect(MONGOURI)
-            .then(() => console.log("Connected to mongodb"))
-            .catch((err) => console.log(err));
+        yield (0, dbConnect_1.dbConnect)().then(() => console.log("Connected to mongodb"));
         app.use(express_1.default.json());
         app.use(express_1.default.urlencoded());
         app.use((0, cors_1.default)({
-            origin: ["http://192.168.1.8:3000"],
+            origin: ["https://bot.oncetwice.one/", "https://oncetwice.one/", "https://nayeon-bot-dashboard.vercel.app/"],
             credentials: true,
         }));
         app.use((0, express_session_1.default)({

@@ -6,8 +6,8 @@ import routes from "./routes";
 import cors from "cors";
 import session from "express-session";
 import passport from "passport";
-import mongoose from "mongoose";
 import store from "connect-mongo";
+import { dbConnect } from "./utils/dbConnect";
 
 const app = express();
 const PORT = process.env.PORT || 3005;
@@ -15,17 +15,14 @@ const PORT = process.env.PORT || 3005;
 const main = async () => {
   try {
     const { MONGOURI, SECRET } = process.env;
-    mongoose
-      .connect(MONGOURI!)
-      .then(() => console.log("Connected to mongodb"))
-      .catch((err) => console.log(err));
+    await dbConnect().then(() => console.log("Connected to mongodb"));
 
     app.use(express.json());
     app.use(express.urlencoded());
 
     app.use(
       cors({
-        origin: ["https://bot.oncetwice.one/"],
+        origin: ["https://bot.oncetwice.one/", "https://oncetwice.one/", "https://nayeon-bot-dashboard.vercel.app/"],
         credentials: true,
       })
     );

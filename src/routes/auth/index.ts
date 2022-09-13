@@ -8,7 +8,7 @@ router.get("/discord", passport.authenticate("discord"), (req, res) => {
 });
 
 router.get("/discord/redirect", passport.authenticate("discord"), (req, res) => {
-  res.redirect("https://bot.oncetwice.one/server");
+  return res.redirect("https://bot.oncetwice.one/server");
 });
 
 router.get("/logout", (req, res, next) => {
