@@ -21,6 +21,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const passport_1 = __importDefault(require("passport"));
 const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const dbConnect_1 = require("./utils/dbConnect");
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3005;
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -29,10 +30,19 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, dbConnect_1.dbConnect)().then(() => console.log("Connected to mongodb"));
         app.use(express_1.default.json());
         app.use(express_1.default.urlencoded());
+        app.use((0, cookie_parser_1.default)());
+        app.set("trust proxy", 1);
         app.use((0, cors_1.default)({
-            origin: ["https://bot.oncetwice.one/", "https://oncetwice.one/", "https://nayeon-bot-dashboard.vercel.app/"],
+            origin: ["https://bot.oncetwice.one", "https://oncetwice.one", "https://nayeon-dashboard-api.vercel.app"],
             credentials: true,
         }));
+        app.use((req, res, next) => {
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.setHeader("Access-Control-Allow-Origin", "https://bot.oncetwice.one");
+            res.setHeader("Access-Control-Allow-Methods", "ACL, BIND, CHECKOUT, CONNECT, COPY, DELETE, GET, HEAD, LINK, LOCK, M-SEARCH, MERGE, MKACTIVITY, MKCALENDAR, MKCOL, MOVE, NOTIFY, OPTIONS, PATCH, POST, PROPFIND, PROPPATCH, PURGE, PUT, REBIND, REPORT, SEARCH, SOURCE, SUBSCRIBE, TRACE, UNBIND, UNLINK, UNLOCK, UNSUBSCRIBE");
+            res.setHeader("Access-Control-Allow-Headers", "Authorization, User-Agent, Content-Type");
+            next();
+        });
         app.use((0, express_session_1.default)({
             secret: `${SECRET}`,
             name: "nayeon.sid",
@@ -41,6 +51,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             cookie: {
                 maxAge: 60000 * 60 * 24 * 7,
                 httpOnly: true,
+                domain: ".oncetwice.one",
             },
             store: connect_mongo_1.default.create({
                 mongoUrl: MONGOURI,
