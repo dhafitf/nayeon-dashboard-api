@@ -10,7 +10,7 @@ router.get("/discord", passport_1.default.authenticate("discord"), (req, res) =>
     res.send(200);
 });
 router.get("/discord/redirect", passport_1.default.authenticate("discord"), (req, res) => {
-    return res.redirect("https://bot.oncetwice.one/");
+    return res.redirect("https://bot.oncetwice.one/server");
 });
 router.get("/logout", (req, res, next) => {
     req.logout((err) => {
@@ -23,16 +23,5 @@ router.get("/logout", (req, res, next) => {
 });
 router.get("/status", (req, res) => {
     return req.user ? res.sendStatus(200) : res.sendStatus(401);
-});
-router.post("/cookie", (req, res) => {
-    const randomNumber = Math.random().toString();
-    res.cookie("nayeon.sid", randomNumber, {
-        maxAge: 900000,
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-    });
-    console.log("cookie created successfully");
-    return res.sendStatus(200);
 });
 exports.default = router;
