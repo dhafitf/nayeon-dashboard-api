@@ -12,24 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = __importDefault(require("../../schemas/User"));
-const guilds_1 = require("../../services/guilds");
-function getGuildsController(req, res) {
+const axios_1 = __importDefault(require("axios"));
+const DISCORD_API_URL = "https://discord.com/api/v9";
+function getUserService(accessToken) {
     return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const userData = req.user;
-            const { accessToken } = userData.user;
-            const { data: getUserGuilds } = yield (0, guilds_1.getUserGuildsService)(accessToken);
-            const getGuilds = yield (0, guilds_1.getMutualGuildsService)(getUserGuilds);
-            const exixtingData = yield User_1.default.findOneAndUpdate({ "user.id": userData.user.id }, { guilds: getGuilds }, { new: true });
-            if (!exixtingData)
-                return res.sendStatus(404);
-            return res.send(exixtingData.guilds);
-        }
-        catch (error) {
-            console.log(error);
-            return res.status(400).send({ msg: "Error" });
-        }
+        return axios_1.default.get(`${DISCORD_API_URL}/users/@me/guilds`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
     });
 }
-exports.default = getGuildsController;
+exports.default = getUserService;
