@@ -18,13 +18,20 @@ function getGuildsController(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const userData = req.user;
-            const { accessToken } = userData.user;
-            const { data: getUserGuilds } = yield (0, guilds_1.getUserGuildsService)(accessToken);
-            const getGuilds = yield (0, guilds_1.getMutualGuildsService)(getUserGuilds);
-            const exixtingData = yield User_1.default.findOneAndUpdate({ "user.id": userData.user.id }, { guilds: getGuilds }, { new: true });
-            if (!exixtingData)
-                return res.sendStatus(404);
-            return res.send(exixtingData.guilds);
+            const { update } = req.query;
+            if (Boolean(update)) {
+                const { accessToken } = userData.user;
+                const { data: getUserGuilds } = yield (0, guilds_1.getUserGuildsService)(accessToken);
+                const getGuilds = yield (0, guilds_1.getMutualGuildsService)(getUserGuilds);
+                const exixtingData = yield User_1.default.findOneAndUpdate({ "user.id": userData.user.id }, { guilds: getGuilds }, { new: true });
+                if (!exixtingData)
+                    return res.sendStatus(404);
+                return res.send(exixtingData.guilds);
+            }
+            else {
+                const guilds = userData.guilds;
+                return res.send(guilds);
+            }
         }
         catch (error) {
             console.log(error);
